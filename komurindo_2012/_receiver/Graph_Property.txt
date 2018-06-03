@@ -1,0 +1,10 @@
+		C1	C2	C3	C4
+Top 	:	960	6720 	960	6600
+Left 	:	120	120	10080	10080
+Height 	:	5535	3735	3735	3735
+Width 	:	10095	7935	7935	7935
+
+X Green
+Y Red
+Z Blue
+C Yellow

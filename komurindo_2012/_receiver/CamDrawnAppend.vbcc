@@ -1,0 +1,151 @@
+Dim Xx, Yy, Cn, Qq As Integer
+Dim Strr, Strs, s As String, PicI, Ycy, Xcx, Zz, Gray As Integer, i As Long
+Private Sub Draw2()
+Strr = txtReceive.Text
+For y = 1 To 200
+    For x = 1 To 200
+        PicI = Asc(Mid(Strr, i, 1)): Pic.PSet (x - 1, y - 1), RGB(PicI, PicI, PicI): i = i + 1
+    Next x
+Next y
+End Sub
+Private Sub Draw()
+On Error Resume Next
+Strr = txtReceive.Text
+Xcx = 0: Ycy = 1: i = 0
+While i < Len(Strr)
+    Xcx = Xcx + 1: i = i + 1
+    PicI = Asc(Mid(Strr, i, 1)): Pic.PSet (Xcx - 1, Ycy - 1), RGB(PicI, PicI, PicI)
+    If (Xcx = 200) Then
+        Xcx = 0: Ycy = Ycy + 1
+    End If
+Wend
+End Sub
+Private Sub DrawFormat()
+PicI = Asc(s): Xcx = Xcx + 1
+Pic.PSet (Xcx - 1, Ycy - 1), RGB(PicI, PicI, PicI)
+If (Xcx = 200 Or Xcx > 200 - 1) Then
+    Xcx = 0: Ycy = Ycy + 1
+End If
+End Sub
+Private Sub cmdClear_Click()
+txtReceive.Text = "": txtCMD.Text = ""
+End Sub
+Private Sub cmdClose_Click()
+Com1.PortOpen = False
+End Sub
+Private Sub cmdCopy_Click()
+Call Draw
+End Sub
+Private Sub cmdGet_Click()
+Com1.Output = Chr(&HAA) & Chr(&H4) & Chr(&H2) & Chr(&H0) & Chr(&H0) & Chr(&H0) 'Raw Picture
+txtReceive.Text = "": i = 0: Ycy = 0: Xcx = 0
+End Sub
+Private Sub cmdInit_Click()
+Com1.Output = Chr(&HAA) & Chr(&H1) & Chr(&H0) & Chr(&H3) & Chr(&H1) & Chr(&H3) ' Init 8Bit Gray, 80x60
+'Com1.Output = Chr(&HAA) & Chr(&H1) & Chr(&H0) & Chr(&H3) & Chr(&H3) & Chr(&H3) ' Init 8Bit Gray, 160x120
+'Com1.Output = Chr(&HAA) & Chr(&H1) & Chr(&H0) & Chr(&H3) & Chr(&H5) & Chr(&H3) ' Init 8Bit Gray, 320x240
+txtReceive.Text = ""
+End Sub
+Private Sub cmdProceed_Click()
+tmr1.Enabled = True
+End Sub
+Private Sub cmdSet_Click()
+Com1.Output = Chr(&HAA) & Chr(&H7) & Chr(&HBF) & Chr(&H1) & Chr(&H0) & Chr(&H0) ' Set 9600
+txtReceive.Text = ""
+End Sub
+Private Sub cmdSync_Click()
+Com1.Output = Chr(&HAA) & Chr(&HD) & Chr(&H0) & Chr(&H0) & Chr(&H0) & Chr(&H0)
+txtReceive.Text = ""
+End Sub
+Private Sub Com1_OnComm()
+s = Com1.Input: txtRec.Text = Hex(Asc(s))
+txtReceive.Text = txtReceive.Text & s
+lblItung.Caption = Len(txtReceive.Text)
+'Call DrawFormat
+End Sub
+Private Sub cmdASCII_Click()
+Dim strAsc1 As String
+strAsc1 = txtReceive.Text: txtASCII.Text = ""
+For i = 1 To Len(strAsc1)
+    txtASCII.Text = txtASCII.Text & Hex(Asc(Mid(strAsc1, i, 1))) & " "
+Next
+End Sub
+Private Sub cmdSend_Click()
+txtReceive.Text = "": Com1.Output = txtSend.Text + vbCr: txtSend.Text = "": txtSend.SetFocus
+End Sub
+Private Sub cmdItung_Click()
+lblItung = Len(txtReceive.Text): lblCn = Cn
+End Sub
+Private Sub Form_Load()
+Com1.RThreshold = 1: Com1.RTSEnable = True: Com1.CommPort = 1: i = 1: Ycy = 0: Xcx = 0: Xx = 200: Yy = 200
+End Sub
+Private Sub cmdOpen1_Click()
+Com1.Settings = "57600,n,8,1": Com1.PortOpen = True
+End Sub
+Private Sub cmdOpen2_Click()
+Com1.Settings = "9600,n,8,1": Com1.PortOpen = True
+End Sub
+Private Sub tmr1_Timer()
+Xcx = Xcx + 1: PicI = Asc(Mid(Strs, i, 1))
+Pic.PSet (Xcx - 1, Ycy - 1), RGB(PicI, PicI, PicI): i = i + 1
+If (Xcx = 200 Or Xcx > 199) Then
+    Xcx = 0: Ycy = Ycy + 1
+End If
+End Sub
+Private Sub txtCMD_KeyPress(KeyAscii As Integer)
+If (Chr(KeyAscii) = "q") Then
+    Com1.PortOpen = False: Com1.Settings = "9600,n,8,1": Com1.PortOpen = True: i = 0: Ycy = 0: Xcx = 0
+Else
+    Com1.Output = Chr(KeyAscii): txtCMD.Text = "": i = 0: Ycy = 0: Xcx = 0
+End If
+End Sub
+Private Sub cmd1_Click()
+Com1.Output = "1"
+End Sub
+Private Sub cmd2_Click()
+Com1.Output = "2"
+End Sub
+Private Sub cmdA_Click()
+Com1.Output = "a"
+End Sub
+Private Sub cmdC_Click()
+Xx = 320: Yy = 240: Com1.Output = "c"
+End Sub
+Private Sub cmdQ_Click()
+Com1.Output = "q"
+End Sub
+Private Sub cmdX_Click()
+Xx = 160: Yy = 120: Com1.Output = "x"
+End Sub
+Private Sub cmdZ_Click()
+Xx = 80: Yy = 60: Com1.Output = "z"
+End Sub
+Private Sub cmdD_Click()
+Com1.Output = "d": Qq = 0: i = 0: Cn = 0: Xcx = 0: Ycy = 1
+
+Do Until Qq = 1
+    Strr = txtReceive.Text
+    If ((i < Len(Strr)) And (Len(Strr) <> 0)) Then
+        Xcx = Xcx + 1: i = i + 1
+        PicI = Asc(Mid(Strr, i, 1)): Pic.PSet (Xcx - 1, Ycy - 1), RGB(PicI, PicI, PicI)
+        If (Xcx = 200) Then
+            Xcx = 0: Ycy = Ycy + 1
+        End If
+        's = Com1.Input
+        'txtRec.Text = Hex(Asc(s))
+        'txtReceive.Text = txtReceive.Text & s
+        'Cn = Len(txtReceive.Text)
+        'Cn = Cn + 1
+        'lblItung.Caption = Len(txtReceive.Text)
+        'PicI = Asc(s): Xcx = Xcx + 1
+        'Pic.PSet (Cn - 1, Ycy - 1), RGB(PicI, PicI, PicI)
+        'If (Cn = 200 Or Cn = 400 Or Cn = 600 Or Cn = 800 Or Cn = 1000 Or Cn = 1200 Or Cn = 1400 Or Cn = 1600 Or Cn = 1800 Or Cn = 2000) Then
+        '    Xcx = 0: Ycy = Ycy + 1
+        'End If
+    End If
+    DoEvents
+Loop
+End Sub
+Private Sub cmdS_Click()
+Com1.Output = "s"
+End Sub
