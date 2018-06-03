@@ -1,13 +1,13 @@
-folder content:
+## folder content:
 
-1) _rules
-Rule kompetisi dari LAPAN dan Dikti.
+### _rules
+* Rule kompetisi dari LAPAN dan Dikti.
 
-2) _docs
-Dokumentasi dan hasil saat kontes.
+### _docs
+* Dokumentasi dan hasil saat kontes.
 
-3) _controller
-Source code dari controller pada Roket/Muatan Roket.
+### _controller
+* Source code dari controller pada Roket/Muatan Roket.
 
-4) _receiver
-Aplikasi GUI.
+### _receiver
+* Aplikasi GUI menggunakan Visual Basic 6. Untuk menggunakan install dulu Visual Basic 6, atau kontrol run-time nya.

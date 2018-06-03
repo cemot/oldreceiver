@@ -1,10 +1,10 @@
-folder content:
+## folder content:
 
-1) _rules
-Rule kompetisi dari LAPAN dan Dikti.
+### _rules
+* Rule kompetisi dari LAPAN dan Dikti.
 
-2) _docs
-Dokumentasi dan hasil saat kontes.
+### _docs
+* Dokumentasi dan hasil saat kontes.
 
-3) _receiver
-Aplikasi GUI.
+### _receiver
+* Aplikasi GUI menggunakan Visual Basic 6. Untuk menggunakan isntall dulu Visual Basic 6, atau kontrol run-time nya.
